@@ -1,10 +1,20 @@
+import { type JSX } from "react/jsx-runtime";
+
+interface TodoCardProps {
+  title: string;
+  dueDate: string;
+  priority: string;
+  category: string;
+  completed: boolean;
+}
+
 export default function TodoCard({
   title,
   dueDate,
   priority,
   category,
   completed
-}) {
+}: TodoCardProps): JSX.Element {
   return (
     <article className="card">
       <div className="card-top-row">

@@ -1,10 +1,18 @@
-import TodoCard from './TodoCard.jsx';
+import { type JSX } from "react/jsx-runtime";
+import TodoCard from "./TodoCard.tsx";
+import { Todo } from "../types/Todo.ts";
+
+
+type TodoListSectionProps = {
+  heading: string;
+  todos: Todo[];
+};
 
 /*
     <section></section> is a standard HTML element. <section> represents a 
     thematic grouping of content—basically a logical section of a page.
  */
-export default function TodoListSection({ heading, todos }) {
+export default function TodoListSection({ heading, todos }: TodoListSectionProps): JSX.Element {
   return (
     <section className="panel">
       <h2>{heading}</h2>

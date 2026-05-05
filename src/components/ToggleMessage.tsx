@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
+import { type JSX } from "react/jsx-runtime"
 
-export default function ToggleMessage() {
+export default function ToggleMessage(): JSX.Element {
     const [visible, setVisible] = React.useState(false)
 
-    function clickEventHandler() {
+    function clickEventHandler(): void {
         setVisible(v => !v)
     }   
 

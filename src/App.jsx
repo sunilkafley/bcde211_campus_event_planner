@@ -1,23 +1,22 @@
 import './App.css';
-import PageHeader from './components/PageHeader.jsx';
-import TodoListSection from './components/TodoListSection.jsx';
-import FooterNote from './components/FooterNote.jsx';
-import ToggleMessage from './components/ToggleMessage.jsx';
-import { mockTodos } from './data/mockTodos.js';
-import ToggleCount from './components/ToggleCount.jsx';
-import Form from './components/Form.jsx';
+import PageHeader from './components/PageHeader'
+import TodoListSection from './components/TodoListSection'
+import FooterNote from './components/FooterNote'
+import ToggleMessage from './components/ToggleMessage'
+import { mockTodos } from './data/mockTodos'
+import ToggleCount from './components/ToggleCount'
+import Form from './components/Form'
 
-// <main>...</main> is an HTML semantic element that represents the primary 
-// content of a webpage.
 export default function App() {
   return (
     <div className="page-shell">
       <PageHeader
         title="Campus Event Planner"
-        subtitle="BCDE211 Assessment"
+        subtitle="BCDE211 Assessment 3"
       />
-        <ToggleMessage> </ToggleMessage>
-        <ToggleCount> </ToggleCount>
+
+      <ToggleMessage />
+      <ToggleCount />
 
       <main className="content-stack">
         <TodoListSection
@@ -26,12 +25,11 @@ export default function App() {
         />
       </main>
 
-      <Form> </Form>
+      <Form />
 
       <FooterNote
         note="Campus Event Planner developed using React. All data is mock data and does not persist."
       />
-
     </div>
   );
 }
