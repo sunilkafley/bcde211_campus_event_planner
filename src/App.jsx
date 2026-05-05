@@ -13,15 +13,15 @@ export default function App() {
   return (
     <div className="page-shell">
       <PageHeader
-        title="Todo Manager"
-        subtitle="BCDE211 Week 08 React Fundamentals Starter"
+        title="Campus Event Planner"
+        subtitle="BCDE211 Assessment"
       />
         <ToggleMessage> </ToggleMessage>
         <ToggleCount> </ToggleCount>
 
       <main className="content-stack">
         <TodoListSection
-          heading="Current Tasks"
+          heading="Current Events"
           todos={mockTodos}
         />
       </main>
@@ -29,7 +29,7 @@ export default function App() {
       <Form> </Form>
 
       <FooterNote
-        note="Week 08 focus: JSX, components, props, composition, lists, keys, and light conditional rendering."
+        note="Campus Event Planner developed using React. All data is mock data and does not persist."
       />
 
     </div>

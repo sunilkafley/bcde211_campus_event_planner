@@ -1,26 +1,26 @@
 export const mockTodos = [
   {
-    id: 'todo-001',
-    title: 'Finish JSX repair exercise',
-    dueDate: '2026-04-28',
+    id: 'event-001',
+    title: 'Python Session',
+    dueDate: '2026-05-28',
     priority: 'High',
     category: 'Study',
     completed: false
   },
   {
-    id: 'todo-002',
-    title: 'Refactor TodoCard component',
+    id: 'event-002',
+    title: 'Web Dev Workshop',
     dueDate: '2026-04-29',
     priority: 'Medium',
     category: 'Coding',
     completed: true
   },
   {
-    id: 'todo-003',
-    title: 'Prepare A1 evidence stub',
+    id: 'event-003',
+    title: 'Futsal Tournament',
     dueDate: '2026-05-01',
     priority: 'High',
-    category: 'Assessment',
+    category: 'Sports',
     completed: false
   }
 ];
