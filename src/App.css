@@ -80,3 +80,30 @@
   margin-top: 24px;
   color: #6b7280;
 }
+
+.event-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.event-form input {
+  padding: 10px;
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.event-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.event-form button:hover {
+  opacity: 0.9;
+}

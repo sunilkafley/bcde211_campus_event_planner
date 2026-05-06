@@ -1,35 +1,48 @@
+import { useState } from 'react';
+
 import './App.css';
+
 import PageHeader from './components/PageHeader.tsx';
-import TodoListSection from './components/TodoListSection.tsx';
+import EventListSection from './components/EventListSection.tsx';
 import FooterNote from './components/FooterNote.tsx';
 import ToggleMessage from './components/ToggleMessage.tsx';
-import { mockTodos } from './data/mockTodos.js';
-import ToggleCount from './components/ToggleCount.tsx';
 import Form from './components/Form.tsx';
 
-// <main>...</main> is an HTML semantic element that represents the primary 
-// content of a webpage.
+import { mockEvents } from './data/mockEvents.js';
+
 export default function App() {
+
+  // Dynamic event state
+  const [events, setEvents] = useState(mockEvents);
+
+  // Add new event
+  function addEvent(newEvent) {
+    setEvents((prevEvents) => [...prevEvents, newEvent]);
+  }
+
   return (
     <div className="page-shell">
+
       <PageHeader
         title="Campus Event Planner"
         subtitle="BCDE211 Assessment 3"
       />
-        <ToggleMessage> </ToggleMessage>
-        <ToggleCount> </ToggleCount>
+
+      <ToggleMessage />
 
       <main className="content-stack">
-        <TodoListSection
+
+        <EventListSection
           heading="Current Events"
-          todos={mockTodos}
+          events={events}
         />
+
       </main>
 
-      <Form> </Form>
+      <Form addEvent={addEvent} />
 
       <FooterNote
-        note="Campus Event Planner developed using React. All data is mock data and does not persist."
+        note="Campus Event Planner developed using React."
       />
 
     </div>

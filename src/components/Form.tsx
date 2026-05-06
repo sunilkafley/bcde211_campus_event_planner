@@ -1,55 +1,99 @@
 import React from "react";
 
-export default function SimpleInput() {
-  const [input, setInput] = React.useState<string>("");
-  const [items, setItems] = React.useState<string[]>([]);
-  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
+type FormProps = {
+  addEvent: (event: any) => void;
+};
+
+export default function Form({ addEvent }: FormProps) {
+
+  const [title, setTitle] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const [startTime, setStartTime] = React.useState("");
+  const [endTime, setEndTime] = React.useState("");
+  const [location, setLocation] = React.useState("");
+  const [tags, setTags] = React.useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!input.trim()) return;
+    const newEvent = {
+      id: crypto.randomUUID(),
 
-    if (editingIndex !== null) {
-      //  update existing item
-      setItems((prev) =>
-        prev.map((item, i) => (i === editingIndex ? input : item))
-      );
-      setEditingIndex(null);
-    } else {
-      //  add new item
-      setItems((prev) => [...prev, input]);
-    }
+      title,
+      date,
+      startTime,
+      endTime,
+      location,
 
-    setInput("");
-  }
+      tags: tags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean),
+    };
 
-  function handleEdit(index: number) {
-    setInput(items[index]);
-    setEditingIndex(index);
+    addEvent(newEvent);
+
+    // Clear form
+    setTitle("");
+    setDate("");
+    setStartTime("");
+    setEndTime("");
+    setLocation("");
+    setTags("");
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <section className="panel">
+
+      <h2>Add New Event</h2>
+
+      <form onSubmit={handleSubmit} className="event-form">
+
         <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter the item"
+          type="text"
+          placeholder="Event Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
+
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
+        <input
+          type="time"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+        />
+
+        <input
+          type="time"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Tags separated by commas"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+        />
+
         <button type="submit">
-          {editingIndex !== null ? "Update" : "Add"}
+          Add Event
         </button>
+
       </form>
 
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>
-            {item}
-            <button onClick={() => handleEdit(index)}>Edit</button>
-          </li>
-        ))}
-      </ul>
-    </>
+    </section>
   );
 }
