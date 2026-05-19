@@ -1,7 +1,5 @@
-import { type JSX } from "react/jsx-runtime";
-import EventCard from "./EventCard.tsx";
-import { CampusEvent } from "../types/CampusEvent.ts";
-
+import EventCard from "./EventCard";
+import type { CampusEvent } from "../types/CampusEvent";
 
 type EventListSectionProps = {
   heading: string;
@@ -9,10 +7,12 @@ type EventListSectionProps = {
 };
 
 /*
-    <section></section> is a standard HTML element. <section> represents a 
-    thematic grouping of content—basically a logical section of a page.
- */
-export default function EventListSection({ heading, events }: EventListSectionProps): JSX.Element {
+<section></section> represents a thematic grouping of content.
+*/
+export default function EventListSection({
+  heading,
+  events,
+}: EventListSectionProps) {
   return (
     <section className="panel">
       <h2>{heading}</h2>

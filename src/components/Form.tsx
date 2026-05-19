@@ -1,7 +1,8 @@
 import React from "react";
+import type { CampusEvent } from "../types/CampusEvent";
 
 type FormProps = {
-  addEvent: (event: any) => void;
+  addEvent: (event: CampusEvent) => void;
 };
 
 export default function Form({ addEvent }: FormProps) {
@@ -16,7 +17,7 @@ export default function Form({ addEvent }: FormProps) {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const newEvent = {
+    const newEvent: CampusEvent = {
       id: crypto.randomUUID(),
 
       title,
@@ -54,24 +55,28 @@ export default function Form({ addEvent }: FormProps) {
           placeholder="Event Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
 
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          required
         />
 
         <input
           type="time"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
+          required
         />
 
         <input
           type="time"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
+          required
         />
 
         <input
@@ -79,6 +84,7 @@ export default function Form({ addEvent }: FormProps) {
           placeholder="Location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          required
         />
 
         <input

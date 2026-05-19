@@ -1,12 +1,8 @@
-import {type JSX } from "react/jsx-runtime";
+type FooterNoteProps = {
+  note: string;
+};
 
-type NoteType = string; 
-
-interface FooterNoteProps {
-  note: NoteType;
-}
-
-export default function FooterNote({ note }: FooterNoteProps): JSX.Element {
+export default function FooterNote({ note }: FooterNoteProps) {
   return (
     <footer className="footer-note">
       <small>{note}</small>

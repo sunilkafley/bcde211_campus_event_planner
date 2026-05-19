@@ -1,5 +1,3 @@
-import { type JSX } from "react/jsx-runtime";
-
 interface EventCardProps {
   id: string;
   title: string;
@@ -11,17 +9,20 @@ interface EventCardProps {
 }
 
 export default function EventCard({
-  id,
   title,
   date,
   startTime,
   endTime,
   location,
-  tags
-}: EventCardProps): JSX.Element {
-  // Requirement 10
-  // Calculation within ONE item
-  const duration = 0;
+  tags,
+}: EventCardProps) {
+
+  // Convert time strings into hours
+  const start = Number(startTime.split(":")[0]);
+  const end = Number(endTime.split(":")[0]);
+
+  // Requirement 10 - calculation within one item
+  const duration = end - start;
 
   return (
     <article className="card">
