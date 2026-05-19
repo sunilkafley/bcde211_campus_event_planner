@@ -1,4 +1,4 @@
-export type Event = {
+export type CampusEvent = {
   id: string;
   title: string;
   date: string;
