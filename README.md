@@ -1,4 +1,4 @@
-# React + Vite
+# React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -13,139 +13,173 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 ## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Create the Vite React shell
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-```code
-npm create vite@latest bcde211-week08-react-starter -- --template react
-cd bcde211-week08-react-starter
-npm install
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+## Vite React + TypeScript Setup
+
+```bash
+npm create vite@latest bcde211-a3-structure-like-demo-v1 -- --template react-ts
+cd bcde211-a3-structure-like-demo-v1
+```
+
+If converting an existing JS project:
+
+```bash
+npm install -D typescript @types/react @types/react-dom
+```
+
+If installing dependencies for an existing project with package-lock.json:
+
+```bash
+npm ci
+```
+
+or
+
+```bash
+npm install   # if "npm ci" fails
+```
+
+## Typical workflow
+
+### During development
+
+Use:
+
+```bash
+npm run dev       # Fast development
+```
+
+for rapid iteration.
+
+### Before deployment
+
+Always test with:
+
+```bash
+npm run build     # Create production app
+npm run preview   # Test real production behavior locally
+```
+
+because that is the closest representation of the real deployed app.
+
+## In practice
+
+For a normal React app:
+
+```bash
 npm run dev
 ```
 
-## Folder structure
+is often enough during coding.
 
-This is a pretty standard Vite + React starter structure, just with a bit of custom organization added. Here’s how to understand it without getting lost in the tree.
+For a PWA:
 
-### Top-level files (project config)
+you must regularly test the production build because the critical PWA features only truly exist there.
 
-These control how your project runs and builds:
+## The architecture
 
-- **`.gitignore`** – tells Git what *not* to track (e.g. `node_modules`)
-- **`package.json` / `package-lock.json`** – dependencies + scripts (`npm run dev`, etc.)
-- **`vite.config.js`** – Vite configuration (dev server, plugins)
-- **`eslint.config.js`** – linting rules (code quality)
-- **`index.html`** – the single HTML page React mounts into
-- **`README.md`** – project info/instructions
-
----
-
-#### `public/` (static files)
-
-Files here are served *as-is*:
-
-- `favicon.svg` – browser tab icon  
-- `icons.svg` – reusable SVG icons  
-
-These are not processed by React or Vite—just delivered directly.
-
----
-
-#### `src/` (your actual app)
-
-This is where all your React code lives.
-
-##### Core entry files
-
-- **`main.jsx`**  
-  Entry point. It renders your React app into `index.html`.
-
-- **`App.jsx`**  
-  The root component. Think of this as the “main layout” of your app.
-
-- **`App.css` / `index.css`**  
-  Styling (component-level and global styles)
-
----
-
-#### `assets/` (images used in code)
-
-- `hero.png`, `react.svg`, `vite.svg`  
-
-These are imported into components like:
-
-```js
-import hero from './assets/hero.png'
+```text
+React component = view + local screen behaviour
+Model = domain rules and coordinator
+Repository = storage boundary
 ```
 
-Unlike `public/`, these go through the build system.
+## To enable HTTPS in Vite during local development with self-signed certificates
 
----
-
-#### `components/` (reusable UI pieces)
-
-Each file is a React component:
-
-- PageHeader.jsx – top section of the page
-- FooterNote.jsx – footer area
-- TodoCard.jsx – displays a single todo
-- TodoListSection.jsx – displays a list of todos
-
-This is where most UI logic lives.
-
----
-
-#### `data/` (mock or static data)
-
-- mockTodos.js
-
-  Likely contains sample todo items, e.g.:
+Update vite.config.js or vite.config.ts:
 
 ```js
-export const mockTodos = [
-  {
-    id: 'todo-001',
-    title: 'Finish JSX repair exercise',
-    dueDate: '2026-04-28',
-    priority: 'High',
-    category: 'Study',
-    completed: false
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import fs from 'fs'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+
+  server: {
+    https: {
+      key: fs.readFileSync('./certs/localhost.key'),
+      cert: fs.readFileSync('./certs/localhost.crt'),
+    },
   },
-  {
-    id: 'todo-002',
-    title: 'Refactor TodoCard component',
-    dueDate: '2026-04-29',
-    priority: 'Medium',
-    category: 'Coding',
-    completed: true
-  }
-]
+
+  preview: {
+    https: {
+      key: fs.readFileSync('./certs/localhost.key'),
+      cert: fs.readFileSync('./certs/localhost.crt'),
+    },
+  },
+})
 ```
 
-Useful for development before connecting to a backend.
+Run:
 
-#### How it all connects
+```bash
+npm run dev
+```
 
-1. `index.html` loads  
-2. `main.jsx` mounts React into the page  
-3. `App.jsx` becomes the root UI  
-4. `App.jsx` imports components like:
-   - `PageHeader`
-   - `TodoListSection`  
-5. Components may use:
-   - images from `assets/`
-   - data from `data/mockTodos.js`
+or
 
----
-
-#### Mental model
-
-Think of it like this:
-
-- Top level → project setup  
-- `public/` → static files  
-- `src/` → your app  
-  - `components/` → UI building blocks  
-  - `data/` → fake data  
-  - `assets/` → images  
+```bash
+npm run build
+npm run preview
+```

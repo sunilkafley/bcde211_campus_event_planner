@@ -4,16 +4,16 @@
     "target": "esnext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "esnext",
-    "types": ["vite/client"],
-    "skipLibCheck": true, /* Skip type checking of declaration files for faster builds */
+    "types": ["vite/client", "jest"],
+    "skipLibCheck": true /* Skip type checking of declaration files for faster builds */,
 
     /* Bundler mode */
-    "moduleResolution": "bundler", /* Use "bundler" for modern bundlers like Vite, Webpack 5, etc. */
+    "moduleResolution": "bundler" /* Use "bundler" for modern bundlers like Vite, Webpack 5, etc. */,
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true, /* Don't emit output, we just want type checking */
-    "jsx": "react-jsx", /* Use the new JSX transform (React 17+) */
+    "noEmit": true /* Don't emit output, we just want type checking */,
+    "jsx": "react-jsx" /* Use the new JSX transform (React 17+) */,
 
     /* Linting */
     "noUnusedLocals": true,
@@ -21,12 +21,12 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
 
-    "strict": true, /*Enables TypeScript safety (this is your “guardrails” message)*/
-    "noImplicitAny": true, /*Prevents students from silently using any */
-    "allowJs": true, /*Allows JavaScript files to be compiled*/
-    "useDefineForClassFields": true, /*Ensures class fields are emitted as per the ECMAScript standard*/
-    "resolveJsonModule": true, /*Allows importing JSON files as modules*/
-    "isolatedModules": true, /*Ensures that each file can be safely transpiled in isolation (important for tools like Vite)*/    
+    "strict": true /*Enables TypeScript safety (this is your “guardrails” message)*/,
+    "noImplicitAny": true /*Prevents students from silently using any */,
+    "allowJs": true /*Allows JavaScript files to be compiled*/,
+    "useDefineForClassFields": true /*Ensures class fields are emitted as per the ECMAScript standard*/,
+    "resolveJsonModule": true /*Allows importing JSON files as modules*/,
+    "isolatedModules": true /*Ensures that each file can be safely transpiled in isolation (important for tools like Vite)*/
   },
   "include": ["src"]
 }
