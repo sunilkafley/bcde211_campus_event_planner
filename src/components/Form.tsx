@@ -1,24 +1,23 @@
-import React from "react";
-import type { CampusEvent } from "../types/CampusEvent";
+import React from 'react'
+import type { CampusEvent } from '../types/CampusEvent'
 
-type FormProps = {
-  addEvent: (event: CampusEvent) => void;
-};
+interface FormProps {
+  addEvent: (event: CampusEvent) => void
+}
 
 export default function Form({ addEvent }: FormProps) {
-
-  const [title, setTitle] = React.useState("");
-  const [date, setDate] = React.useState("");
-  const [startTime, setStartTime] = React.useState("");
-  const [endTime, setEndTime] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [tags, setTags] = React.useState("");
+  const [title, setTitle] = React.useState('')
+  const [date, setDate] = React.useState('')
+  const [startTime, setStartTime] = React.useState('')
+  const [endTime, setEndTime] = React.useState('')
+  const [location, setLocation] = React.useState('')
+  const [tags, setTags] = React.useState('')
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+    e.preventDefault()
 
     const newEvent: CampusEvent = {
-      id: crypto.randomUUID(),
+      id: 0,
 
       title,
       date,
@@ -27,29 +26,27 @@ export default function Form({ addEvent }: FormProps) {
       location,
 
       tags: tags
-        .split(",")
+        .split(',')
         .map((tag) => tag.trim())
         .filter(Boolean),
-    };
+    }
 
-    addEvent(newEvent);
+    addEvent(newEvent)
 
     // Clear form
-    setTitle("");
-    setDate("");
-    setStartTime("");
-    setEndTime("");
-    setLocation("");
-    setTags("");
+    setTitle('')
+    setDate('')
+    setStartTime('')
+    setEndTime('')
+    setLocation('')
+    setTags('')
   }
 
   return (
     <section className="panel">
-
       <h2>Add New Event</h2>
 
       <form onSubmit={handleSubmit} className="event-form">
-
         <input
           type="text"
           placeholder="Event Title"
@@ -94,12 +91,8 @@ export default function Form({ addEvent }: FormProps) {
           onChange={(e) => setTags(e.target.value)}
         />
 
-        <button type="submit">
-          Add Event
-        </button>
-
+        <button type="submit">Add Event</button>
       </form>
-
     </section>
-  );
+  )
 }

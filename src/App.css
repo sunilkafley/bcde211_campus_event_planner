@@ -107,3 +107,53 @@
 .event-form button:hover {
   opacity: 0.9;
 }
+
+/*
+ * Requirement 13
+ * Displays abnormal or failure cases in a
+ * clear and user-friendly notification banner.
+ */
+.notification-banner {
+  margin: 1rem 0;
+  padding: 1rem;
+
+  border: 1px solid #f0c36d;
+  border-left: 5px solid #d97706;
+
+  border-radius: 8px;
+
+  background-color: #fff7e6;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notification-content strong {
+  color: #92400e;
+}
+
+.notification-content p {
+  margin: 0;
+}
+
+.notification-content button {
+  align-self: flex-start;
+}
+
+/*
+ * Displays a friendly message when
+ * a search returns no matching events.
+ */
+.empty-search-results {
+  margin: 1rem 0;
+  padding: 1rem;
+
+  text-align: center;
+
+  border-radius: 8px;
+
+  background-color: #f5f5f5;
+}
