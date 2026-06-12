@@ -6,8 +6,14 @@ describe('StatisticsPanel', () => {
   it('shows event statistics', () => {
     render(<StatisticsPanel totalEvents={3} totalDuration={180} />)
 
-    expect(screen.getByText(/Total Events: 3/i)).toBeInTheDocument()
+    expect(screen.getByText(/Event Statistics/i)).toBeInTheDocument()
 
-    expect(screen.getByText(/Total Duration: 180 minutes/i)).toBeInTheDocument()
+    expect(screen.getByText(/Total Events/i)).toBeInTheDocument()
+
+    expect(screen.getByText('3')).toBeInTheDocument()
+
+    expect(screen.getByText(/Total Duration/i)).toBeInTheDocument()
+
+    expect(screen.getByText(/3 hours/i)).toBeInTheDocument()
   })
 })

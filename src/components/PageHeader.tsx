@@ -6,12 +6,20 @@ interface PageHeaderProps {
 export default function PageHeader({ title, subtitle }: PageHeaderProps) {
   return (
     <header className="page-header">
-      <img src="\icon_campus_event_planner.png"></img>
-      <p className="eyebrow">Developed by Sunil Kafley</p>
+      <div className="header-brand">
+        <img
+          src="/icons/pwa-192x192.png"
+          alt="Campus Event Planner Logo"
+          className="header-logo"
+        />
 
-      <h1>{title}</h1>
+        <div>
+          <h1>{title}</h1>
+          <p className="eyebrow">Christchurch, New Zealand</p>
 
-      <p className="subtitle">{subtitle}</p>
+          <p className="subtitle">{subtitle}</p>
+        </div>
+      </div>
     </header>
   )
 }

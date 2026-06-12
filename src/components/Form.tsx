@@ -46,50 +46,86 @@ export default function Form({ addEvent }: FormProps) {
     <section className="panel">
       <h2>Add New Event</h2>
 
+      <p className="form-subtitle">
+        Create and manage campus events and activities.
+      </p>
+
       <form onSubmit={handleSubmit} className="event-form">
-        <input
-          type="text"
-          placeholder="Event Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
+        <div className="form-row">
+          <label htmlFor="event-title">Event Title</label>
 
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
+          <input
+            id="event-title"
+            type="text"
+            placeholder="e.g. Best Programming Practices Workshop"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
 
-        <input
-          type="time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          required
-        />
+        <div className="date-time-row">
+          <div className="form-row">
+            <label htmlFor="event-date">Event Date</label>
 
-        <input
-          type="time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          required
-        />
+            <input
+              id="event-date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          required
-        />
+          <div className="form-row">
+            <label htmlFor="start-time">Start Time </label>
 
-        <input
-          type="text"
-          placeholder="Tags separated by commas"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        />
+            <input
+              id="start-time"
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-row">
+            <label htmlFor="end-time">End Time </label>
+
+            <input
+              id="end-time"
+              type="time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <label htmlFor="location">Location</label>
+
+          <input
+            id="location"
+            type="text"
+            placeholder="e.g. Ara City Campus"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-row">
+          <label htmlFor="tags">Tags</label>
+
+          <input
+            id="tags"
+            type="text"
+            placeholder="e.g. Careers, Workshop, Sports, Software"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+        </div>
 
         <button type="submit">Add Event</button>
       </form>

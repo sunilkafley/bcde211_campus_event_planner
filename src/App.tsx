@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 import PageHeader from './components/PageHeader'
 import EventListSection from './components/EventListSection'
 import FooterNote from './components/FooterNote'
-import ToggleMessage from './components/ToggleMessage'
 import Form from './components/Form'
+import ToggleMessage from './components/ToggleMessage'
+
 import { OfflineBanner } from './components/OfflineBanner'
 
 import type { CampusEvent } from './types/CampusEvent'
@@ -51,15 +52,7 @@ export default function App() {
     try {
       const loadedEvents = await eventPlannerService.getAll()
 
-      const sortedEvents = [...loadedEvents].sort((a, b) => {
-        if (sortField === 'title') {
-          return a.title.localeCompare(b.title)
-        }
-
-        return a.date.localeCompare(b.date)
-      })
-
-      setEvents(sortedEvents)
+      setEvents(loadedEvents)
 
       await refreshStatistics()
     } catch (error) {
@@ -186,7 +179,34 @@ export default function App() {
    * the latest persisted data.
    */
   async function updateEvent(updatedEvent: CampusEvent): Promise<void> {
+    setErrorTitle('')
+    setErrorMessage('')
+
     try {
+      /**
+       * Prevent duplicate events during editing.
+       *
+       * Excludes the event currently being edited.
+       */
+      const duplicateEvent = events.find(
+        (event) =>
+          event.id !== updatedEvent.id &&
+          event.title.trim().toLowerCase() ===
+            updatedEvent.title.trim().toLowerCase() &&
+          event.date === updatedEvent.date &&
+          event.startTime === updatedEvent.startTime,
+      )
+
+      if (duplicateEvent) {
+        setErrorTitle('Unable to Update Event')
+
+        setErrorMessage(
+          'An event with the same title, date and start time already exists.',
+        )
+
+        return
+      }
+
       await eventPlannerService.update(updatedEvent)
 
       await refreshEvents()
@@ -223,7 +243,6 @@ export default function App() {
         subtitle="BCDE211 Assessment 3"
       />
 
-      <ToggleMessage />
       {errorMessage && (
         <section className="notification-banner">
           <div className="notification-content">
@@ -245,35 +264,51 @@ export default function App() {
       )}
 
       <main className="content-stack">
-        <StatisticsPanel
-          totalEvents={totalEvents}
-          totalDuration={totalDuration}
-        />
-        <section>
-          <label htmlFor="searchEvents">Search Events:</label>
+        {/* Welcome + Statistics */}
+        <div className="dashboard-overview">
+          <section className="panel welcome-panel">
+            <h2>Welcome to Campus Event Planner</h2>
 
-          <input
-            id="searchEvents"
-            type="text"
-            placeholder="Search by title or tag"
-            value={searchTerm}
-            onChange={(event) => searchEvents(event.target.value)}
+            <p>Your all in one tool to manage the campus events effectively.</p>
+
+            <ul className="welcome-features">
+              <li>Create new campus event </li>
+              <li>Search by title or tag </li>
+              <li>Sorts events by title or date</li>
+              <li>View event statistics</li>
+              <li>Edit, revert and delete events</li>
+            </ul>
+          </section>
+
+          <StatisticsPanel
+            totalEvents={totalEvents}
+            totalDuration={totalDuration}
           />
-        </section>
+        </div>
 
-        <section>
-          <label htmlFor="sortEvents">Sort Events:</label>
+        {/* Search */}
+        <section className="panel filter-panel">
+          <h2>Search Events</h2>
 
-          <select
-            id="sortEvents"
-            value={sortField}
-            onChange={(event) =>
-              sortEvents(event.target.value as 'date' | 'title')
-            }
-          >
-            <option value="date">Date</option>
-            <option value="title">Title</option>
-          </select>
+          <div className="filter-row">
+            <input
+              id="searchEvents"
+              type="text"
+              placeholder="Search events by title or tag..."
+              value={searchTerm}
+              onChange={(event) => searchEvents(event.target.value)}
+            />
+
+            <select
+              value={sortField}
+              onChange={(event) =>
+                sortEvents(event.target.value as 'date' | 'title')
+              }
+            >
+              <option value="date">Sort by Date</option>
+              <option value="title">Sort by Title</option>
+            </select>
+          </div>
         </section>
 
         <EventListSection
@@ -284,10 +319,9 @@ export default function App() {
           onUpdate={updateEvent}
           onRevert={revertEvent}
         />
+        <ToggleMessage />
+        <Form addEvent={addEvent} />
       </main>
-
-      <Form addEvent={addEvent} />
-
       <FooterNote note="Campus Event Planner developed using React." />
     </div>
   )

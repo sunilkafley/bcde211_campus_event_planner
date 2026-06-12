@@ -9,21 +9,21 @@ export class EventPlanner {
 
   constructor(repository) {
     // The repository is the single source of truth for all data operations
-    // (CRUD) on the Todo items, since no external system modifies the
+    // (CRUD) on the Event records, since no external system modifies the
     // repository in this application.
     // Writing data should hit the repository first, and then the model will
-    // update its local cache (#todos) to reflect the changes.
+    // update its local cache (#events) to reflect the changes.
     this.#repository = repository
     this.#events = []
     this.#backup = new Map() // For undo functionality
   }
   /**
-   * Adds a new Todo to the repository and the model.
-   * The new Todo will not have an ID until it is added to the repository.
-   * @param {string} title The title of the new Todo.
-   * @returns {Promise<Todo>} A promise that resolves with the new Todo if successful.
+   * Adds a new Event to the repository and the planner.
+   * The new Event will not have an ID until it is added to the repository.
+   * @param {string} title The title of the new Event.
+   * @returns {Promise<Event>} A promise that resolves with the new Event if successful.
    * By using the async keyword, the add method indicates that it returns a promise,
-   * allowing the caller to handle the asynchronous behavior properly.
+   * allowing the caller to handle the asynchronous behaviour properly.
    */
 
   // R2 + R11

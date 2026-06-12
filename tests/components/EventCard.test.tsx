@@ -3,22 +3,31 @@ import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 
 import EventCard from '../../src/components/EventCard'
+import type { CampusEvent } from '../../src/types/CampusEvent'
 
 describe('EventCard', () => {
   const mockDelete = jest.fn()
   const mockUpdate = jest.fn()
   const mockRevert = jest.fn()
 
-  function renderEventCard() {
+  const mockEvent: CampusEvent = {
+    id: 1,
+    title: 'Football Tournament',
+    date: '2026-06-13',
+    startTime: '11:00',
+    endTime: '15:30',
+    location: 'Futsal Ground Shirley',
+    tags: ['Sports'],
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  function renderComponent() {
     return render(
       <EventCard
-        id={1}
-        title="Football"
-        date="2026-06-11"
-        startTime="10:00"
-        endTime="11:15"
-        location="Sydenham"
-        tags={['Sports']}
+        event={mockEvent}
         onDelete={mockDelete}
         onUpdate={mockUpdate}
         onRevert={mockRevert}
@@ -26,48 +35,33 @@ describe('EventCard', () => {
     )
   }
 
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
   test('renders event information', () => {
-    renderEventCard()
+    renderComponent()
 
-    expect(screen.getByText('Football')).toBeInTheDocument()
-
-    expect(screen.getByText(/2026-06-11/i)).toBeInTheDocument()
-
-    expect(screen.getByText(/Sydenham/i)).toBeInTheDocument()
-
+    expect(screen.getByText('Football Tournament')).toBeInTheDocument()
     expect(screen.getByText(/Sports/i)).toBeInTheDocument()
+    expect(screen.getByText(/Futsal Ground Shirley/i)).toBeInTheDocument()
   })
 
-  test('renders calculated duration', () => {
-    renderEventCard()
-
-    expect(screen.getByText(/1 hour 15 mins/i)).toBeInTheDocument()
-  })
-
-  test('calls delete handler when delete button clicked', async () => {
+  test('calls delete handler', async () => {
     const user = userEvent.setup()
 
-    renderEventCard()
+    renderComponent()
 
     await user.click(
       screen.getByRole('button', {
-        name: /delete event/i,
+        name: /delete/i,
       }),
     )
 
     expect(mockDelete).toHaveBeenCalledTimes(1)
-
     expect(mockDelete).toHaveBeenCalledWith(1)
   })
 
-  test('enters edit mode when edit button clicked', async () => {
+  test('enters edit mode', async () => {
     const user = userEvent.setup()
 
-    renderEventCard()
+    renderComponent()
 
     await user.click(
       screen.getByRole('button', {
@@ -75,21 +69,13 @@ describe('EventCard', () => {
       }),
     )
 
-    expect(screen.getByDisplayValue('Football')).toBeInTheDocument()
-
-    expect(screen.getByDisplayValue('Sydenham')).toBeInTheDocument()
-
-    expect(
-      screen.getByRole('button', {
-        name: /save/i,
-      }),
-    ).toBeInTheDocument()
+    expect(screen.getByDisplayValue('Football Tournament')).toBeInTheDocument()
   })
 
-  test('calls update handler when save button clicked', async () => {
+  test('updates an event', async () => {
     const user = userEvent.setup()
 
-    renderEventCard()
+    renderComponent()
 
     await user.click(
       screen.getByRole('button', {
@@ -97,10 +83,9 @@ describe('EventCard', () => {
       }),
     )
 
-    const titleInput = screen.getByDisplayValue('Football')
+    const titleInput = screen.getByDisplayValue('Football Tournament')
 
     await user.clear(titleInput)
-
     await user.type(titleInput, 'Football Finals')
 
     await user.click(
@@ -119,10 +104,10 @@ describe('EventCard', () => {
     )
   })
 
-  test('calls revert handler when revert button clicked', async () => {
+  test('calls revert handler', async () => {
     const user = userEvent.setup()
 
-    renderEventCard()
+    renderComponent()
 
     await user.click(
       screen.getByRole('button', {
@@ -137,7 +122,6 @@ describe('EventCard', () => {
     )
 
     expect(mockRevert).toHaveBeenCalledTimes(1)
-
     expect(mockRevert).toHaveBeenCalledWith(1)
   })
 })

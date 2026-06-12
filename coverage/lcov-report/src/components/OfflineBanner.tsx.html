@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -96,15 +96,25 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -114,6 +124,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -132,44 +150,53 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from 'react'
 &nbsp;
 export function <span class="fstat-no" title="function not covered" >OfflineBanner(</span>) {
-    const [isOnline, setIsOnline] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(navigator.onLine)</span>
+  const [isOnline, setIsOnline] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(navigator.onLine)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-        function <span class="fstat-no" title="function not covered" >handleOnline(</span>) {
-<span class="cstat-no" title="statement not covered" >            setIsOnline(true)</span>
-        }
-        function <span class="fstat-no" title="function not covered" >handleOffline(</span>) {
-<span class="cstat-no" title="statement not covered" >            setIsOnline(false)</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        window.addEventListener('online', handleOnline)</span>
-<span class="cstat-no" title="statement not covered" >        window.addEventListener('offline', handleOffline)</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            window.removeEventListener('online', handleOnline)</span>
-<span class="cstat-no" title="statement not covered" >            window.removeEventListener('offline', handleOffline)</span>
-        }
-    },[])
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (isOnline) {</span>
-<span class="cstat-no" title="statement not covered" >        return null</span>
+  // useEffect runs code after the component appears on the screen
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    function <span class="fstat-no" title="function not covered" >handleOnline(</span>) {
+<span class="cstat-no" title="statement not covered" >      setIsOnline(true)</span>
+    }
+    function <span class="fstat-no" title="function not covered" >handleOffline(</span>) {
+<span class="cstat-no" title="statement not covered" >      setIsOnline(false)</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
-        &lt;&gt;
-            &lt;div className="offline-banner"&gt;
-                You are currently offline. There is no internet connection. Please check your network settings.
-            &lt;/div&gt;
-        &lt;/&gt;
-    )
-}</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >    window.addEventListener('online', handleOnline)</span>
+<span class="cstat-no" title="statement not covered" >    window.addEventListener('offline', handleOffline)</span>
+    // React runs this cleanup when component unmounts or the effect reruns
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      window.removeEventListener('online', handleOnline)</span>
+<span class="cstat-no" title="statement not covered" >      window.removeEventListener('offline', handleOffline)</span>
+    }
+  }, []) // empty dependency array means this effect only runs once, when the component first appears
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (isOnline) {</span>
+<span class="cstat-no" title="statement not covered" >      document.body.classList.remove('offline')</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      document.body.classList.add('offline')</span>
+    }
+  }, [isOnline])
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (isOnline) {</span>
+<span class="cstat-no" title="statement not covered" >    return null</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;div className="offline-banner"&gt;
+      You appear to be offline. Campus Event Planner is currently operating with
+      cached data.
+    &lt;/div&gt;
+  )
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-10T05:19:36.186Z
+                at 2026-06-12T02:58:04.386Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

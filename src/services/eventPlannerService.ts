@@ -6,22 +6,12 @@ import type { CampusEvent } from '../types/CampusEvent'
 import type { EventPlannerServiceContract } from '../types/EventPlannerServiceContract'
 
 /**
- * Single repository instance used by the Campus Event Planner.
- *
- * This repository provides the IndexedDB persistence pathway
- * inherited from Assessment 2.
+ * Shared IndexedDB repository used by the application.
  */
 const repository = new IndexedDbEventRepository()
 
 /**
  * Converts a HH:mm time string into total minutes.
- *
- * Examples:
- * 09:30 -> 570
- * 13:15 -> 795
- *
- * The Assessment 2 domain model stores time values as numbers,
- * therefore React UI values must be converted before persistence.
  */
 function timeToMinutes(time: string): number {
   const [hours, minutes] = time.split(':').map(Number)
@@ -31,13 +21,6 @@ function timeToMinutes(time: string): number {
 
 /**
  * Converts total minutes into HH:mm format.
- *
- * Examples:
- * 570 -> 09:30
- * 795 -> 13:15
- *
- * Used when converting Assessment 2 model data
- * into React UI data.
  */
 function minutesToTime(totalMinutes: number): string {
   const hours = Math.floor(totalMinutes / 60)
@@ -47,22 +30,52 @@ function minutesToTime(totalMinutes: number): string {
 }
 
 /**
- * Service implementation that acts as the bridge between:
+ * Formats duration in a
+ * user-friendly display format.
+ */
+export function formatDuration(totalMinutes: number): string {
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+
+  if (hours === 0) {
+    return `${minutes} minute${minutes !== 1 ? 's' : ''}`
+  }
+
+  if (minutes === 0) {
+    return `${hours} hour${hours !== 1 ? 's' : ''}`
+  }
+
+  return `${hours} hour${hours !== 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''}`
+}
+
+/**
+ * Formats a time value for display using AM/PM notation
+ */
+export function formatTime(time: string): string {
+  const [hoursString, minutes] = time.split(':')
+  const hours = Number(hoursString)
+
+  const period = hours >= 12 ? 'PM' : 'AM'
+
+  const displayHours = hours % 12 || 12
+
+  return `${displayHours}:${minutes} ${period}`
+}
+
+/**
+ * Formats an event date for display
+ */
+export function formatEventDate(date: string): string {
+  return new Date(date).toLocaleDateString('en-NZ', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+/**
+ * Service layer that coordinates communication
+ * between React components and the EventPlanner model.
  *
- * React UI
- *     ↓
- * Event Planner Service
- *     ↓
- * Assessment 2 EventPlanner
- *     ↓
- * IndexedDB Repository
- *
- * The service contains:
- * - Data mapping
- * - Time conversion
- * - Persistence coordination
- *
- * The service deliberately does NOT manage React state.
  */
 class IndexedDbEventPlannerService implements EventPlannerServiceContract {
   private planner: EventPlanner
@@ -72,8 +85,7 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
   }
 
   /**
-   * Converts an Assessment 2 Event model instance
-   * into a CampusEvent used by React components.
+   * Maps an Event model into a CampusEvent object.
    */
   private mapToCampusEvent(event: any): CampusEvent {
     return {
@@ -88,8 +100,7 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
   }
 
   /**
-   * Loads all persisted events using the Assessment 2
-   * persistence pathway.
+   * Returns all stored events.
    */
   async getAll(): Promise<CampusEvent[]> {
     const events = await this.planner.getAll()
@@ -99,9 +110,6 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
 
   /**
    * Adds a new event.
-   *
-   * Requirement 2:
-   * Add New Item
    */
   async add(event: CampusEvent): Promise<void> {
     await this.planner.add(
@@ -115,11 +123,7 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
   }
 
   /**
-   * Updates an existing event using the
-   * Assessment 2 Event model.
-   *
-   * Requirement 4:
-   * Edit / Update Existing Item
+   * Updates an existing event
    */
   async update(event: CampusEvent): Promise<void> {
     const updatedEvent = new Event(
@@ -136,20 +140,14 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
   }
 
   /**
-   * Deletes an event from persistence.
-   *
-   * Requirement 5:
-   * Delete Existing Item
+   * Deletes an event.
    */
   async remove(id: number): Promise<void> {
     await this.planner.remove(id)
   }
 
   /**
-   * Restores the previous version of an event.
-   *
-   * Requirement 6:
-   * Discard / Revert Edits
+   *Reverts an event to its previous state.
    */
   async revert(id: number): Promise<void> {
     this.planner.revert(id)
@@ -157,9 +155,6 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
 
   /**
    * Searches events by title or tags.
-   *
-   * Requirement 9:
-   * Search / Filter Events
    */
   async search(criteria: string): Promise<CampusEvent[]> {
     const matchingEvents = this.planner.find(criteria)
@@ -168,11 +163,7 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
   }
 
   /**
-   * Sorts events using the Assessment 2
-   * EventPlanner sorting implementation.
-   *
-   * Requirement 8:
-   * Sort Events
+   * Sorts events by title and date
    */
   async sort(field: 'title' | 'date'): Promise<CampusEvent[]> {
     const sortedEvents = this.planner.sort(field)
@@ -182,9 +173,6 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
 
   /**
    * Returns the total number of events.
-   *
-   * Requirement 11:
-   * Calculation Across Multiple Items
    */
   async getTotalEvents(): Promise<number> {
     return this.planner.getTotalEvents()
@@ -192,9 +180,6 @@ class IndexedDbEventPlannerService implements EventPlannerServiceContract {
 
   /**
    * Returns the total duration of all events.
-   *
-   * Requirement 11:
-   * Calculation Across Multiple Items
    */
   async getTotalDuration(): Promise<number> {
     return this.planner.getTotalDuration()

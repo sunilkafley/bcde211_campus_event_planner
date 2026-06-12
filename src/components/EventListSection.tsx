@@ -35,13 +35,7 @@ export default function EventListSection({
           {events.map((event) => (
             <EventCard
               key={event.id}
-              id={event.id}
-              title={event.title}
-              date={event.date}
-              startTime={event.startTime}
-              endTime={event.endTime}
-              location={event.location}
-              tags={event.tags}
+              event={event}
               onDelete={onDelete}
               onUpdate={onUpdate}
               onRevert={onRevert}

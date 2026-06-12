@@ -3,7 +3,7 @@ import type { CampusEvent } from './CampusEvent'
 /**
  * Service contract for all Campus Event Planner operations.
  *
- * React components should interact with this contract rather than
+ * React components interacts with this contract
  * directly accessing repositories or domain models.
  */
 export interface EventPlannerServiceContract {
